@@ -1,21 +1,19 @@
 Assignment 1:  AFL and libFuzzer
 DUE DATE:  2/17/20
 
-1.  Create a private github repo, named <yournauid>_cs499_sp20
+For my C function, I went a little above what was asked for by choosing to try to fuzz out the Heartbleed vulnerability from OpenSSL 1.0.1f.
+Essentially, the Heartbleed bug occurs during a "hello" sequence extension of the TLS handshake, where the client specifies the length of a certain string,
+but instead of actually validating this length, the OpenSSL library at this version would just dump portions of the heap.
 
-2.  Give me access as a collaborator (I'm agroce@gmail.com)
+The vulnerable code is available in openssl/, after executing `git submodule init`, then `git submodule update`. There is a Makefile available in the OpenSSL library.
 
-3.  Find some interesting C function out there in the real world.  
-Put a brief description of what it does, and where you got it.  You want this to be fairly simple and reasonable to fuzz.
+In both AFL and libFuzzer, I was able to successfully exploit the bug after some time. LibFuzzer was actually significantly faster than AFL in exploiting the bug.
+It also was, in my opinion, easier to actually setup the instrumentation. After setting some compiler flags in Clang, I was able to instrument all of OpenSSL.
+Both of these fuzzers required the use of the AddressSanitizer (ASAN) functionality, which was required to witness the OpenSSL library overrunning its buffer during the
+exploit. Something that was interesting to me during my studies was the differences in how the two modules report results. LibFuzzer appears to always stop after it
+locates a single crash, where AFL seems to continue execution and determine new paths to take. I also noticed that AFL was very good at finding what seeds actually
+mean. When testing with my OS project, I noticed that the fuzzer was able to accurately determine appropriate changes to the config over time (in the numerous crashes
+it was able to find in my horribly written project) that should've worked but crashed the program.
 
-4.  Put that code as a function in a file cfunction.c, with header cfunction.h.  See afl_example/pbuffer.c/.h for some guidance on what this will look like.
-
-5.  Write an AFL "harness" for your function, put it in afl_cfunction.c.
-
-6.  Write a libFuzzer "harness" for your function, put it in libfuzzer_cfunction.cpp.
-
-7.  Write an appropriate Makefile.
-
-8.  RUN THESE FUZZERS, with AFL with and without -d, with some interesting different seeds, and with libFuzzer with different size limits and -use_value_profile=1.
-
-9.  Discuss your results in a file, results.txt.  You're gonna want at least 300 words here.  More is fine.
+As an aside, due to the somewhat hacky nature of my laptop, I had to disable the cpufreq module detection in AFL. 
+This is documented in my build script for AFL (build_afl.sh), as well as the methods for enabling the ASAN modules.
