@@ -1,3 +1,6 @@
 [submodule "Assignment1/openssl"]
 	path = Assignment1/openssl
 	url = https://github.com/openssl/openssl.git
+[submodule "Assignment2/c_printf"]
+	path = Assignment2/c_printf
+	url = https://github.com/Gioyik/c_printf.git
