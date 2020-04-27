@@ -4,3 +4,6 @@
 [submodule "Assignment2/c_printf"]
 	path = Assignment2/c_printf
 	url = https://github.com/Gioyik/c_printf.git
+[submodule "Final_Project/libutf8"]
+	path = Final_Project/libutf8
+	url = https://github.com/jwerle/libutf8
