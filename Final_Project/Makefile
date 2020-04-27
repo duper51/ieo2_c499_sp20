@@ -1,10 +1,10 @@
 CC=clang
 CPP=clang++
-CFLAGS=-ldeepstate_LF -fsanitize=fuzzer #-lutf8
-CFLAGS_DS=-ldeepstate #-lutf8
+CFLAGS=-ldeepstate_LF -fprofile-instr-generate -fcoverage-mapping -fsanitize=fuzzer,address #-lutf8
+CFLAGS_DS=-ldeepstate -fprofile-instr-generate -fcoverage-mapping   #-lutf8
 CPPFLAGS=$(CFLAGS) -g #-lutf8 -g
-CPPFLAGS_DS=-ldeepstate -g #-lutf8 -g
-CPPFLAGS_AFL=-ldeepstate_AFL
+CPPFLAGS_DS=-ldeepstate -fprofile-instr-generate -fcoverage-mapping -g #-lutf8 -g
+CPPFLAGS_AFL=-ldeepstate_AFL -fprofile-instr-generate -fcoverage-mapping
 LINKER_OPTS=-L${CURDIR}/libutf8/
 
 all: main main_lf main_afl

@@ -7,28 +7,24 @@
 [1;94m[*] [0mChecking core_pattern...[0m
 [1;94m[*] [0mChecking CPU scaling governor...[0m
 [1;94m[*] [0mSetting up output directories...[0m
-[1;94m[*] [0mScanning '/tmp/deepstate_fake_seed_nx9ieln'...[0m
+[1;92m[+] [0mOutput directory exists, will attempt session resume.[0m
+[1;94m[*] [0mDeleting old session data...[0m
+[1;92m[+] [0mOutput dir cleanup successful.[0m
+[1;94m[*] [0mScanning 'outdir/the_fuzzer/_resume'...[0m
 [1;92m[+] [0mNo auto-generated dictionary tokens to reuse.[0m
 [1;94m[*] [0mCreating hard links for all input files...[0m
 [1;94m[*] [0mValidating target binary...[0m
-[1;94m[*] [0mAttempting dry run with 'id:000000,orig:fake_seed'...[0m
-[1;94m[*] [0mSpinning up the fork server...[0m
-[1;92m[+] [0mAll right - fork server is up.[0m
-[1;90m    len = 1, map size = 311, exec speed = 524 us
-[0m[1;92m[+] [0mAll test cases processed.[0m
 
-[1;92m[+] [0mHere are some useful stats:
+[1;91m[-] [0mLooks like the target binary is not instrumented! The fuzzer depends on
+    compile-time instrumentation to isolate interesting test cases while
+    mutating the input data. For more information, and for tips on how to
+    instrument binaries, please see /usr/local/share/doc/afl/README.
 
-[1;90m    Test case count : [0m1 favored, 0 variable, 1 total
-[1;90m       Bitmap range : [0m311 to 311 bits (average: 311.00 bits)
-[1;90m        Exec timing : [0m524 to 524 us (average: 524 us)
-[0m
-[1;94m[*] [0mNo -t option specified, so I'll use exec timeout of 20 ms.[0m
-[1;92m[+] [0mAll set and ready to roll![0m
-[1;94m[*] [0mEntering queue cycle 1.[0m
-[1;94m[*] [0mFuzzing test case #0 (1 total, 0 uniq crashes found)...[0m
-[?25h[1;91m
+    When source code is not available, you may be able to leverage QEMU
+    mode support. Consult the README for tips on how to enable this.
+    (It is also possible to use afl-fuzz as a traditional, "dumb" fuzzer.
+    For that, you can use the -n option - but expect much worse results.)
+)B[?25h[0m[1;91m
+[-] PROGRAM ABORT : [1;97mNo instrumentation detected[1;91m
+         Location : [0mcheck_binary(), afl-fuzz.c:6920
 
-+++ Testing aborted by user +++
-[0m[1;92m[+] [0mWe're done here. Have a nice day!
-[0m
