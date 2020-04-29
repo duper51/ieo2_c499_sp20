@@ -1,0 +1,17 @@
+# Symex Vs. Fuzzing
+I chose a couple libraries to test (mostly by Googling easy things to test for each type), and I ended up on a simple maze game for `symexwins.cpp`, and an
+intentionally broken JSON parsing library for `fuzzingwins`.
+
+I found through testing that (as expected), the symex maze fuzzer operated far quicker when run under angr and manticore than with libFuzzer 
+(which didn't find a result within 20 minutes). And consequently, Angr and Manticore didn't even come close to finding the bugs after 20 minutes.
+
+My theory for this is the fact that the bugs in the JSON library are far more nuanced than the maze test, especially given the need for AddressSanitizer to bring
+out most of the bugs present in the JSON library. Also, the desired input strings are much longer for the JSON library, and aren't restricted to the WSAD keys like
+in the maze. This just increases the search space for the symex system. Another point is that with AFL I was able to provide a seed with valid JSON that 
+I was able to use to help it find the in the JSON library quickly. It, however, did not help with the maze, which I found interesting.
+
+Overall, I do think that the JSON library is more likely to exist out in the wild, but through my research, I did find that finding vulnerabilities in key validation
+systems is far easier than attempting to fuzz them. A frequent usecase I found was to use Angr as a keygen tool for software, which consisted of isolating the
+validation component, and sinking Angr against a simple test harness. Once it gave results, you'd have a pool of keys that you'd be able to use to gain
+access to the software (though this would be more of a black hat [TM] use-case). Overall, both technologies have their benefits and drawbacks, and both
+are super interesting to work with.
